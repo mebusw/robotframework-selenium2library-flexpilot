@@ -13,6 +13,12 @@ class _FlashControllerKeywords:
     def s2l(self):
         return BuiltIn().get_library_instance('Selenium2Library')
 
+    def _callFlexPilotMethod(self, method, locator, *args):
+        params = [self._parse_locator(locator)]
+        params.extend(args)
+        js = self.js_header + (method % tuple(params))
+        return self.s2l.execute_javascript(js) 
+
     @property
     def js_header(self):
         return "window.document.getElementById('%s')." % self.flashObjectLocator
@@ -30,22 +36,20 @@ class _FlashControllerKeywords:
         """ TODO to find a default flex_obj_id if none
         (this.browserbot.locateElementByXPath('//embed', this.browserbot.getDocument())) ? this.browserbot.locateElementByXPath('//embed', this.browserbot.getDocument()) : this.browserbot.locateElementByXPath('//object', this.browserbot.getDocument()).id 
         """
+        # TODO
         self.flashObjectLocator = flex_obj_id
 
     def flex_click(self, locator):
         """ Clicks display object.
         """
-        js = self.js_header + ("fp_click({%s});" % (self._parse_locator(locator)))
-        return self.s2l.execute_javascript(js)
+        return self._callFlexPilotMethod("fp_click({%s});", locator)
 
     def flex_type(self, locator, text):
         '''Types `text` into the display object found by the locator lookup.
         '''
-        js = self.js_header + ("fp_type({%s, text:'%s'});" % (self._parse_locator(locator), text))
-        return self.s2l.execute_javascript(js)
+        return self._callFlexPilotMethod("fp_type({%s, text:'%s'});", locator, text)
 
     def flex_should_contain_object(self, locator):
         '''assert a display object exists, `locator`
         '''
-        js = self.js_header + ("fp_assertDisplayObject({%s});" % (self._parse_locator(locator)))
-        return self.s2l.execute_javascript(js)
+        return self._callFlexPilotMethod("fp_assertDisplayObject({%s});", locator)
