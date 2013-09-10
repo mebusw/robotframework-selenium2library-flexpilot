@@ -1,11 +1,12 @@
 from keywords import *
 
-class Selenium2LibraryExtensions(
+class Selenium2LibraryFlexPilot(
         _PageTestsKeywords,
         _DragAndDropKeywords,
-        _ActionChainsKeywords
+        _ActionChainsKeywords,
+        _FlashControllerKeywords
 ):
-    """Selenium2LibraryExtensions adds a number of keywords to the Selenium2Library.
+    """Selenium2LibraryFlexPilot adds a number of keywords to the Selenium2Library.
 
     Note that in fact it does not extend the Selenium2Library.
     Internally it accesses the Selenium2Library instance and uses the underlying
@@ -20,7 +21,7 @@ class Selenium2LibraryExtensions(
     ROBOT_LIBRARY_VERSION = '0.0.1'
 
     def __init__(self, timeout=5.0, implicit_wait=0.0, run_on_failure='Capture Page Screenshot'):
-        for base in Selenium2LibraryExtensions.__bases__:
+        for base in Selenium2LibraryFlexPilot.__bases__:
             if hasattr(base,'__init__'):
                 base.__init__(self)
 

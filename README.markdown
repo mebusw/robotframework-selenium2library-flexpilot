@@ -1,72 +1,44 @@
-robotframework-selenium2library-extensions
+robotframework-selenium2library-flexpilot
 ==========================================
-Extends the [robotframework-selenium2library](https://github.com/rtomac/robotframework-selenium2library/ "robotframework-selenium2library").
+Extends the [robotframework-selenium2library](https://github.com/rtomac/robotframework-selenium2library/ "robotframework-selenium2library") to wrap [Flex Pilot](https://github.com/mde/flex-pilot) to support Flex / Flash automation testing. 
+
 
 Extra keywords
 ==============
 
-[Action Chains](http://selenium.googlecode.com/svn/trunk/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html)
-Lazily initiates an action chains.
+[Flex Pilot API](https://github.com/mde/flex-pilot/wiki/api)
+locator/lookup mechanism, eventing
 
-    Chain Sleep
-    Chain Click
-    Chain Click And Hold
-    Chain Drag And Drop
-    Chain Key Up
-    Chain Key Down
-    Chain Move By Offset
-    Chain Move To Element
-    Chain Move To Element With Offset
-    Chain Release
-    Chain Send Keys
-    Chain Send Keys To Element
 
-Execute the created action chains:
-
-    Chains Perform Now
-
-Drag and drop shortcuts: immediately performed.
-
-    Drag And Drop
-    Drag And Drop With Offset
-
-Page Tests:
-
-    Select IFrame
-    Is Element Present
-    Is Visible
-
-Note: some limitations regarding drag and drop
-==============================================
-Note that action chains are not well supported by some dirvers.
-In particular, HTML5 Drag and Drop have not worked so far for firefox and chrome
-on my linux machine.
-It is working with jquery's drag and drop.
-
-Here are some notable webkit and chrome-driver bugs to follow:
-* keyup can't be simulated: (https://bugs.webkit.org/show_bug.cgi?id=16735)
-* html5's drag and drop with chrome-driver not supported: (http://code.google.com/p/selenium/issues/detail?id=3604)
 
 Requirements
 ============
 * Robotframework
 * robotframework-selenium2library
+* FlashPlayer (debugger version)
+* (Optional) FlashFirebug help get the locator of objects
 
 Installation
 ============
 
-    git clone https://github.com/hmalphettes/robotframework-selenium2library-extensions.git
+    git clone https://github.com/hmalphettes/robotframework-selenium2library-flexpilot.git
 
 And in your robotframework test, import the library. For example:
 
     *** Settings
-    Library           ${CURDIR}/../../src/Selenium2LibraryExtensions    WITH NAME    Selenium2LibraryExtensions
+    Library           ${CURDIR}/../../src/Selenium2LibraryFlexPilot    WITH NAME    Selenium2LibraryFlexPilot
 
 
 Run the tests
 =============
 
     ./test/run_tests.sh
+
+Tips
+====
+
+When run `Execute Javascript` keyword of Seleniu2Library, better to add `Set Selenium Speed  1` before it, to wait the Flex completely loaded, otherwise, the js API may not be ready.
+
 
 Extending robotframework-selenium2library without forking it
 ============================================================
