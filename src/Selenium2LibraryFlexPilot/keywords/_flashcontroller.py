@@ -13,6 +13,10 @@ class _FlashControllerKeywords:
     def s2l(self):
         return BuiltIn().get_library_instance('Selenium2Library')
 
+    @property
+    def js_header(self):
+        return "window.document.getElementById('%s')." % self.flashObjectLocator
+
     def _parse_locator(self, locator):
         countOfEqualSign = locator.count('=')
         if countOfEqualSign == 1:
@@ -31,21 +35,17 @@ class _FlashControllerKeywords:
     def flex_click(self, locator):
         """ Clicks display object.
         """
-        js = "window.document.getElementById('%s').fp_click({%s});" \
-            % (self.flashObjectLocator, self._parse_locator(locator))
+        js = self.js_header + ("fp_click({%s});" % (self._parse_locator(locator)))
         return self.s2l.execute_javascript(js)
 
     def flex_type(self, locator, text):
         '''Types `text` into the display object found by the locator lookup.
         '''
-        print locator, text
-        js = "window.document.getElementById('%s').fp_type({%s, text:'%s'});" \
-            % (self.flashObjectLocator, self._parse_locator(locator), text)
+        js = self.js_header + ("fp_type({%s, text:'%s'});" % (self._parse_locator(locator), text))
         return self.s2l.execute_javascript(js)
 
     def flex_should_contain_object(self, locator):
         '''assert a display object exists, `locator`
         '''
-        js = "window.document.getElementById('%s').fp_assertDisplayObject({%s});" \
-            % (self.flashObjectLocator, self._parse_locator(locator))
+        js = self.js_header + ("fp_assertDisplayObject({%s});" % (self._parse_locator(locator)))
         return self.s2l.execute_javascript(js)
