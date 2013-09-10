@@ -1,3 +1,0 @@
-*** Settings ***
-Library           ${CURDIR}/../../src/Selenium2LibraryExtensions    WITH NAME    Selenium2LibraryExtensions
-
