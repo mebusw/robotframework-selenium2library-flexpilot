@@ -9,19 +9,24 @@ Extra keywords
 [Flex Pilot API](https://github.com/mde/flex-pilot/wiki/api)
 locator/lookup mechanism, eventing
 
-
+|_. keywords |_. arguments |_. arguments |
+| Flex Click | locator |
+| Flex Type | locator | text |
+| Flex Should Contain Object | locator |
+| Set Flex Object Id | flex_object_id |
+| *TBC...* | | |
 
 Requirements
 ============
 * Robotframework
 * robotframework-selenium2library
 * FlashPlayer (debugger version)
-* (Optional) FlashFirebug help get the locator of objects
+* (Optional) FlashFirebug (extension of Firefox) help to get the locator of objects
 
 Installation
 ============
 
-    git clone https://github.com/hmalphettes/robotframework-selenium2library-flexpilot.git
+    git clone https://github.com/mebusw/robotframework-selenium2library-flexpilot.git
 
 And in your robotframework test, import the library. For example:
 
@@ -37,7 +42,7 @@ Run the tests
 Tips
 ====
 
-When run `Execute Javascript` keyword of Seleniu2Library, better to add `Set Selenium Speed  1` before it, to wait the Flex completely loaded, otherwise, the js API may not be ready.
+When run `Execute Javascript` keyword of Selenium2Library, better to add `Set Selenium Speed  1` before it, to wait the Flex completely loaded, otherwise, the js API may not be ready.
 
 
 Extending robotframework-selenium2library without forking it
