@@ -11,7 +11,8 @@ locator/lookup mechanism, eventing
 
 | keywords                     | arguments      | arguments |
 | ----                         | ----           | ----      |
-| Select Flex Application      | locator        |           |
+| Wait For Flex Ready          | dom_locator   |           |
+| Select Flex Application      | dom_locator   |           |
 | Click Flex Element           | locator        |           |
 | Input Text Into Flex Element | locator        | text      |
 | Flex Element Should Exist    | locator        |           |

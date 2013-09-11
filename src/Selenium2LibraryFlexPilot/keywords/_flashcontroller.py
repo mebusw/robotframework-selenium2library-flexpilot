@@ -13,9 +13,13 @@ class _FlashControllerKeywords:
     def s2l(self):
         return BuiltIn().get_library_instance('Selenium2Library')
 
+    _flex_element_locators = ['id=', 'name=', 'automationName=', 'label=',
+                              'text=', 'htmlText=', 'chain=']
+    _flex_select_locators = ['label=', 'index=', 'text=', 'data=', 'value=']
 
 
-    def select_flex_application(self, flex_locator):
+
+    def select_flex_application(self, dom_locator):
         """Selects Flex application to work with and waits until it is active.
 
         All further Flex keywords will operate on the selected application and
@@ -27,12 +31,12 @@ class _FlashControllerKeywords:
         located is reloaded. The timeout used is the same Selenium timeout that
         can be set in `importing` and with `Set Selenium Timeout` keyword.
 
-        The application is found using `flex_locator` that must be either `id` or
+        The application is found using `dom_locator` that must be either `id` or
         `name` of the application in HTML. Notice that if you have different
         elements for different browsers (<object> vs. <embed>), you need to
         use different attributes depending on the browser.
 
-        The old flex_locator is returned and can be used to switch back to the
+        The old dom_locator is returned and can be used to switch back to the
         previous application.
 
         Example:
@@ -45,29 +49,29 @@ class _FlashControllerKeywords:
 
         # TODO to find a default flex_obj_id if none
         # (this.browserbot.locateElementByXPath('//embed', this.browserbot.getDocument())) ? this.browserbot.locateElementByXPath('//embed', this.browserbot.getDocument()) : this.browserbot.locateElementByXPath('//object', this.browserbot.getDocument()).id 
-        self._flex_app, old = flex_locator, self._flex_app
-        if flex_locator:
-            self.s2l.page_should_contain_element(flex_locator)
+        self._flex_app, old = dom_locator, self._flex_app
+        if dom_locator:
+            self.s2l.page_should_contain_element(dom_locator)
             # It seems that Selenium timeout is used regardless what's given here
-            # TODO self._selenium.do_command("waitForFlexReady", [flex_locator, self._timeout])
+            # TODO self._selenium.do_command("waitForFlexReady", [dom_locator, self._timeout])
         return old
 
-    def wait_for_flex_ready(self, flex_locator, timeout=5):
-        """Waits until an element is found by `flex_locator` or `timeout` expires.
+    def wait_for_flex_ready(self, dom_locator, timeout=5):
+        """Waits until an element is found by `dom_locator` or `timeout` expires.
 
         By detect if a function exists.
         """
-        self.s2l._info("Waiting %s for element '%s' to appear" % (timeout, flex_locator))
-        error = "Element '%s' did not appear in <TIMEOUT>" % flex_locator
+        self.s2l._info("Waiting %s for element '%s' to appear" % (timeout, dom_locator))
+        error = "Element '%s' did not appear in <TIMEOUT>" % dom_locator
 
-        self.s2l.wait_until_page_contains_element(flex_locator)
-        self.s2l._wait_until(timeout, error, self._flex_ready, flex_locator)
+        self.s2l.wait_until_page_contains_element(dom_locator)
+        self.s2l._wait_until(timeout, error, self._flex_ready, dom_locator)
         if None == self._flex_app:
-            self._flex_app = flex_locator
+            self._flex_app = dom_locator
 
-    def _flex_ready(self, flex_locator):
+    def _flex_ready(self, dom_locator):
         try:
-            js = "return window.document.getElementById('%s').fp_click" % flex_locator
+            js = "return window.document.getElementById('%s').fp_click" % dom_locator
             ret = self.s2l.execute_javascript(js) 
         except Exception, e:
             self.s2l._debug(e)
@@ -94,20 +98,21 @@ class _FlashControllerKeywords:
     def _do_command(self, command, locator=None, *args):
         self.s2l._debug("Executing command '%s' for application '%s' with options '%s'"
                     % (command, self._flex_app, args))
-        params = [self._parse_locator(locator)]
+        params = [self._split_flex_locator(locator)]
         params.extend(args)
         js = self.js_header + (command % tuple(params))
         return self.s2l.execute_javascript(js) 
 
-    def _parse_locator(self, locator):
-        countOfEqualSign = locator.count('=')
-        if countOfEqualSign == 1:
-            return ':'.join(["'%s'" % s for s in locator.split('=')])
-        elif countOfEqualSign == 0:
-            return "'name':'%s'" % locator
-        else:
-            raise Exception('More than one Equal Sign')
-
+    def _split_flex_locator(self, locator, prefixes=_flex_element_locators):
+        selected_prefix = prefixes[0][:-1]
+        selected_value = locator
+        for prefix in prefixes:
+            if locator.startswith(prefix):
+                selected_prefix, selected_value = locator.split('=')
+                break
+        ret = "'%s':'%s'" % (selected_prefix, selected_value)
+        self.s2l._info(ret)
+        return ret         
 
     @property
     def js_header(self):
