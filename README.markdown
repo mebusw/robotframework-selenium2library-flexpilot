@@ -40,13 +40,9 @@ And in your robotframework test, import the library. For example:
 Run the tests
 =============
 
-    ./test/startdemo.bat
+    ./test/startdemo.sh
     pybot flexPilot-RF.txt
 
-Tips
-====
-
-When run `Execute Javascript` keyword of Selenium2Library, better to add `Set Selenium Speed  1` before it, to wait the Flex completely loaded, otherwise, the js API may not be ready.
 
 
 Extending robotframework-selenium2library without forking it
