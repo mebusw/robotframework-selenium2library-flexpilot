@@ -9,13 +9,13 @@ Extra keywords
 [Flex Pilot API](https://github.com/mde/flex-pilot/wiki/api)
 locator/lookup mechanism, eventing
 
-| keywords                   | arguments      | arguments |
-| ----                       | ----           | ----      |
-| Flex Click                 | locator        |           |
-| Flex Type                  | locator        | text      |
-| Flex Should Contain Object | locator        |           |
-| Set Flex Object Id         | flex_object_id |           |
-| *TBC...*                   |                |           |
+| keywords                     | arguments      | arguments |
+| ----                         | ----           | ----      |
+| Select Flex Application      | locator        |           |
+| Click Flex Element           | locator        |           |
+| Input Text Into Flex Element | locator        | text      |
+| Flex Element Should Exist    | locator        |           |
+| (*TBC...*)                   |                |           |
 
 
 Requirements
