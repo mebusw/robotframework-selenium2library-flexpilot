@@ -9,16 +9,10 @@ Library     ${CURDIR}/../src/Selenium2LibraryFlexPilot    WITH NAME    Selenium2
 *** Test Cases ***
 FlexPilotAPI
     Open Browser    http://127.0.0.1:8000/
-    Set Selenium Speed  2
-    Wait Until Page Contains Element    id=loginApp
-    Set Selenium Speed  0
-    # ${ret}  Execute Javascript  window.document.getElementById('loginApp').fp_type({name:'username_field', text:'demo'});
-    # ${ret}  Execute Javascript  window.document.getElementById('loginApp').fp_type({name:'password_field', text:'mode'});
-    # ${ret}  Execute Javascript  window.document.getElementById('loginApp').fp_click({name:'login_button'});
-    # ${ret}  Execute Javascript  window.document.loginApp.fp_assertDisplayObject({name:'welcome_text'});
+    Wait For Flex Ready    loginApp
     Select Flex Application  loginApp
-    ${ret}  Input Text Into Flex Element  name=username_field   demo
-    ${ret}  Input Text Into Flex Element  name=password_field   mode
-    ${ret}  Click Flex Element  name=login_button        
-    ${ret}  Flex Element Should Exist  welcome_text        
+    Input Text Into Flex Element  name=username_field   demo
+    Input Text Into Flex Element  name=password_field   mode
+    Click Flex Element  name=login_button        
+    Flex Element Should Exist  welcome_text        
     [Teardown]  Close Browser
