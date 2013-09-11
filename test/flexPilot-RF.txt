@@ -1,8 +1,8 @@
 *** Settings ***
 Documentation     RF + FlexPilot
 ...
-Library           Selenium2Library
-Library           Selenium2LibraryFlexPilot
+Library     Selenium2Library
+Library     ${CURDIR}/../src/Selenium2LibraryFlexPilot    WITH NAME    Selenium2LibraryFlexPilot
 
 
 

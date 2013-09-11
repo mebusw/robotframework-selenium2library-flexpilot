@@ -33,13 +33,14 @@ Installation
 And in your robotframework test, import the library. For example:
 
     *** Settings
-    Library           ${CURDIR}/../../src/Selenium2LibraryFlexPilot    WITH NAME    Selenium2LibraryFlexPilot
+    Library           ${CURDIR}/../src/Selenium2LibraryFlexPilot    WITH NAME    Selenium2LibraryFlexPilot
 
 
 Run the tests
 =============
 
-    ./test/run_tests.sh
+    ./test/startdemo.bat
+    pybot flexPilot-RF.txt
 
 Tips
 ====
